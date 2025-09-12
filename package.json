@@ -7,7 +7,7 @@
     "npm": ">=8.0.0"
   },
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --port 3057",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"

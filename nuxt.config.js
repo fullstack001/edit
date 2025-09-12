@@ -19,7 +19,8 @@ export default {
       // { name: 'description', content: 'PDFden.com - Free Online PDF Tools - Merge, Split, Compress, and More!' }
     ],
     link: [
-      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "apple-touch-icon", href: "/favicon.ico" },
       // {
       //   rel: "stylesheet",
       //   href: "//fonts.googleapis.com/icon?family=Material+Icons",
