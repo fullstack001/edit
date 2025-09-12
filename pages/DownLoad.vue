@@ -102,39 +102,6 @@
           <div></div>
         </div>
 
-        <div class="extra-work">
-          <div class="title">Continue to</div>
-          <div class="extra-work-area">
-            <div class="download-more" @click="go_merge">
-              <img
-                :src="require(`@/assets/feature_img/merge_pdf.svg`)"
-                alt="Merge PDF"
-              />
-              <span class="download-more-title"> Merge PDF </span>
-            </div>
-            <div class="download-more" @click="go_split">
-              <img
-                :src="require(`@/assets/feature_img/split_pdf.svg`)"
-                alt="Split PDF"
-              />
-              <span class="download-more-title"> Split PDF </span>
-            </div>
-            <div class="download-more" @click="go_compress">
-              <img
-                :src="require(`@/assets/feature_img/compress_pdf.svg`)"
-                alt="Compress PDF"
-              />
-              <span class="download-more-title"> Compress PDF </span>
-            </div>
-            <div class="download-more" @click="go_convert">
-              <img
-                :src="require(`@/assets/feature_img/word_pdf.svg`)"
-                alt="Convert PDF"
-              />
-              <span class="download-more-title"> Convert PDF </span>
-            </div>
-          </div>
-        </div>
       </div>
 
       <md-dialog-alert
@@ -405,20 +372,6 @@ export default {
         // If unable to copy, handle the error
         alert("Failed to copy link to clipboard");
       }
-    },
-    go_merge() {
-      this.$router.push({ path: "merge-pdf" });
-    },
-    go_split() {
-      if (this.file_type == "application/pdf") {
-        this.$router.push({ path: "split-pdf" });
-      }
-    },
-    go_compress() {
-      this.$router.push({ path: "compress-pdf" });
-    },
-    go_convert() {
-      this.$router.push({ path: "pdf-to-word" });
     },
 
     async saveClient() {

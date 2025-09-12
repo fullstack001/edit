@@ -1,7 +1,6 @@
 // plugins/dashboard.js
 
 import Vue from 'vue';
-import SideBar from '~/components/SidebarPlugin';
 
 // Asset imports
 import VueMaterial from 'vue-material';
@@ -14,5 +13,4 @@ import 'es6-promise/auto';
 /**
  * This is the main Light Bootstrap Dashboard Vue plugin where dashboard related plugins are registered.
  */
-Vue.use(SideBar);
 Vue.use(VueMaterial);
