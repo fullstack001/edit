@@ -15,75 +15,8 @@
 }
 
 @font-face {
-    font-family: 'Satisfy';
-    font-style: normal;
-    font-weight: 400;
-    src: url('./fonts/Satisfy-Regular.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'Shadows Into Light';
-    font-style: normal;
-    font-weight: 400;
-    src: url('./fonts/ShadowsIntoLight-Regular.ttf') format('truetype');
-}
-
-
-
-
-@font-face {
-    font-family: 'Alex Brush';
-    font-style: normal;
-    font-weight: 400;
-    src: url('./fonts/AlexBrush-Regular.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'Allura';
-    font-style: normal;
-    font-weight: 400;
-    src: url('./fonts/Allura-Regular.ttf') format('truetype');
-}
-
-@font-face {
     font-family: 'Handlee';
     font-style: normal;
     font-weight: 400;
     src: url('./fonts/Handlee-Regular.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'Kristi';
-    font-style: normal;
-    font-weight: 400;
-    src: url('./fonts/Kristi-Regular.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'La Belle Aurore';
-    font-style: normal;
-    font-weight: 400;
-    src: url('./fonts/LaBelleAurore-Regular.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'Marck Script';
-    font-style: normal;
-    font-weight: 400;
-    src: url('./fonts/MarckScript-Regular.ttf') format('truetype');
-}
-
-
-@font-face {
-    font-family: 'Reenie Beanie';
-    font-style: normal;
-    font-weight: 400;
-    src: url('./fonts/ReenieBeanie-Regular.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'Zeyada';
-    font-style: normal;
-    font-weight: 400;
-    src: url('./fonts/Zeyada-Regular.ttf') format('truetype');
 }

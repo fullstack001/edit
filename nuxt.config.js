@@ -42,7 +42,6 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: "~/plugins/vue-drawing-canvas.js", ssr: false },
     { src: "~/plugins/vuex-persist", ssr: false },
     { src: "~/plugins/rating.js", ssr: false },
     { src: "~/plugins/vuelidate.js", mode: "client" },
