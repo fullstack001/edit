@@ -1,5 +1,11 @@
 <template>
   <div class="edit-container" :class="{ 'show-thumbnails': showThumbnails }">
+    <!-- Top Toolbar with Logo and Download Button -->
+    <TopToolBar 
+      :isRendering="rendering"
+      @download="edit_pdf"
+    />
+    
     <div class="main-edit" :style="rendering ? 'background-color:#fefefe' : ''">
       <RendingProgressVue
         :page="pageNumProps"
@@ -19,7 +25,6 @@
         @set_brushSize="(data) => pdf.setBrushSize(data)"
         @deleteSelectedObject="pdf.deleteSelectedObject()"
         @addImage="pdf.addImageToCanvas()"
-        @editPdf="edit_pdf"
         @toggleThumbnails="toggleThumbnails"
         v-if="!rendering"
         :pdf="pdf"
@@ -70,6 +75,7 @@
 import RendingProgressVue from "./RendingProgress.vue";
 import convertPDFImg from "@/services/convertPDFImg.js";
 import EditToolBar from "./EditToolBar.vue";
+import TopToolBar from "./TopToolBar.vue";
 import { PDFAnnotate } from "@/assets/js/pdfannotate.js";
 import { GlobalWorkerOptions, getDocument } from "pdfjs-dist/legacy/build/pdf";
 import PDFJSWorker from "pdfjs-dist/legacy/build/pdf.worker.entry";
@@ -78,6 +84,7 @@ GlobalWorkerOptions.workerSrc = PDFJSWorker;
 export default {
   components: {
     EditToolBar,
+    TopToolBar,
     RendingProgressVue,
   },
   props: ["pdfUrl", "pageNumProps"],
@@ -304,10 +311,10 @@ export default {
   .show-thumbnails #pdf-preview-list {
     display: grid;
     position: fixed;
-    top: 0;
+    top: 64px; /* Account for top toolbar height */
     left: 0;
-    z-index: 1000;
-    height: 100vh;
+    z-index: 999;
+    height: calc(100vh - 64px);
     width: 200px;
     background-color: #fff;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);

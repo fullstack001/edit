@@ -71,15 +71,6 @@
       </div>
     </div>
 
-    <!-- Edit PDF Button -->
-    <div class="tool edit-pdf-tool">
-      <div class="modern-tool-item edit-pdf-item" @click="$emit('editPdf')" :class="{ disabled: isRendering }">
-        <div class="modern-tool-icon">
-          <i class="fa fa-download"></i>
-        </div>
-        <div class="modern-tool-label">Edit PDF</div>
-      </div>
-    </div>
   </div>
   <TextToolBar
       v-if="toolShow == 'text'"
@@ -431,34 +422,6 @@ export default {
   border-color: #a0a0ff;
 }
 
-/* Special styling for edit PDF button */
-.edit-pdf-tool .edit-pdf-item {
-  background-color: #0000ff;
-  color: white;
-  border: 2px solid #0000ff;
-}
-
-.edit-pdf-tool .edit-pdf-item:hover {
-  background-color: #0000cc;
-  border-color: #0000cc;
-}
-
-.edit-pdf-tool .edit-pdf-item.disabled {
-  background-color: #ccc;
-  border-color: #ccc;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.edit-pdf-tool .edit-pdf-item .modern-tool-icon,
-.edit-pdf-tool .edit-pdf-item .modern-tool-label {
-  color: white;
-}
-
-.edit-pdf-tool .edit-pdf-item.disabled .modern-tool-icon,
-.edit-pdf-tool .edit-pdf-item.disabled .modern-tool-label {
-  color: #666;
-}
 
 /* Enhanced Responsive Design */
 @media (max-width: 1024px) {

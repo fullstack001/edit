@@ -1,11 +1,6 @@
 <template>
   <div class="uploading">
-    <img
-      src="@/assets/img/vue-logo.png"
-      class="progress-logo"
-      width="200px"
-      alt="Spinner"
-    />
+    
     <div class="process_title">Uploading file {{ number }} of {{ total }}</div>
     <div class="file-name">
       {{ file_name }} (
