@@ -174,10 +174,8 @@ export default {
           }.bind(this),
         })
         .then((response) => {
-          // Go to previous page with file parameter
-          const previousPage = document.referrer || '/';
-          const separator = previousPage.includes('?') ? '&' : '?';
-          window.location.href = `${previousPage}${separator}file=${this.processingId}`;
+          // Redirect to success page on different domain with processingId
+          window.location.href = `http://localhost:3065/en/success-edit/?file=${this.processingId}`;
         })
         .catch((e) => {
           this.page_load = "default";
