@@ -232,7 +232,7 @@ export const PDFAnnotate = function (
     if (toolObj) {
       fabricObj.add(toolObj);
     }
-    $(".tool-button").first().find("i").click();
+    $(".modern-tool-item:has(.fa-hand)").click();
   };
 };
 

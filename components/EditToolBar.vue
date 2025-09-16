@@ -202,13 +202,13 @@ export default {
     enableAddArrow() {
       this.pdf.setColor(this.color_pallet);
       this.pdf.enableAddArrow(function () {
-        $(".tool-button").first().find("i").click();
+        $('.modern-tool-item:has(.fa-hand)').click();
       });
     },
     enableAddLine() {
       this.pdf.setColor(this.color_pallet);
       this.pdf.enableAddLine(function () {
-        $(".tool-button").first().find("i").click();
+        $('.modern-tool-item:has(.fa-hand)').click();
       });
     },
     enableRectangle() {
@@ -216,7 +216,7 @@ export default {
       this.pdf.setBorderColor(this.color_pallet);
       // this.pdf.enableRectangle();
       this.pdf.enableRectangle(function () {
-        $(".tool-button").first().find("i").click();
+        $('.modern-tool-item:has(.fa-hand)').click();
       });
     },
     enableCircle() {
@@ -331,7 +331,7 @@ export default {
         this.pdf.fabricObjects[this.pdf.active_canvas].add(this.activeObject);
       }
       // this.pdf.fabricObjects[this.pdf.active_canvas].renderAll();
-      // $(".tool-button").first().find("i").click();
+      // $('.modern-tool-item:has(.fa-hand)').click();
     },
     set_highlight_color(data) {
       this.highlightColor = data;

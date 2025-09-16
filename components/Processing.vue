@@ -1,23 +1,12 @@
 <template>
-  <div class="process">
-    <img
-      src="@/assets/img/vue-logo.png"
-      class="progress-logo"
-      width="200px"
-      alt="Spinner"
-    />
-    <div class="process_title">{{ progress }} PDFs...</div>
+  <div class="process" >
 
     <!-- <img src="@/assets/img/Fidget-spinner.gif" class="spinner" width="150px" />
     <img src="@/assets/img/Skype loader.gif" class="spinner" width="150px" />
     <img src="@/assets/img/Spinner-3.gif" class="spinner" width="150px" /> -->
-    <img src="@/assets/img/805.gif" class="spinner" width="100px" alt="Spinner" />
+    <img src="@/assets/img/805.gif" class="spinner" width="60px" alt="Spinner" />
     <div class="progress-des">
-      {{
-        text
-          ? text
-          : "Do not close your browser. Wait until your files are uploaded and processed! This may take a few moments."
-      }}
+      File Processing...
     </div>
   </div>
 </template>
@@ -45,6 +34,7 @@ export default {
 }
 .spinner {
   margin-bottom: 30px;
+  margin-top: 100px;
 }
 .progress-des {
   font-size: 25px;

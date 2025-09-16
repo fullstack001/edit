@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Processing :progress="'Loading file...'" v-if="page_load == 'loading'" />
     <Processing :progress="'Editing'" v-if="page_load == 'processing'" />
     <Uploading
       :progress="progress"
@@ -18,26 +19,10 @@
       "
       v-if="page_load == 'default'"
     >
-      <input
-        hidden
-        type="file"
-        name="file"
-        id="fileInput"
-        class="hidden-input"
-        @change="onChange"
-        ref="file"
-        accept=".pdf"
-      />
-      <SelectFileComponent
-        v-if="!file && page_load == 'default'"
-        @open_add_local="open_add_local"
-        @onPickedDropbox="onPickedDropbox"
-        @onPickedGoogleDriver="onPickedGoogleDriver"
-        @handleFile="handleFiles"
-        :title="'Edit PDF file'"
-        :description="'Add text, shapes, images, and freehand annotations to your PDF using the easiest PDF editor.'"
-        :featureImgUrl="svgUrl"
-      />
+      <div v-if="!file && page_load == 'default'" class="error-message">
+        <h1>No file found</h1>
+        <p>Please provide a valid processingId in the URL</p>
+      </div>
     </div>
     <EditPdfContent
       :pdfUrl="getURL(file)"
@@ -56,10 +41,7 @@ import EditPdfContent from "@/components/EditPdfContent.vue";
 import addImagesToPDF2 from "@/services/add_img_to_pdf2";
 import Processing from "@/components/Processing.vue";
 import Uploading from "@/components/Uploading.vue";
-import { fileHandlingMixin } from "@/config/globalMixin.js";
 import getPageNumber from "@/services/getPageNumber";
-import SelectFileComponent from "@/components/SelectFileComponent.vue";
-import SvgImage from "@/assets/feature_img/edit_pdf.svg";
 export default {
   
   head() {
@@ -89,65 +71,30 @@ export default {
           }
         }
       ],
-      meta: [
-        {
-          name: "Keywords",
-          content:
-            "Edit PDF, online PDF editor, PDF editing tool, modify PDF, edit text in PDF, add images to PDF, PDF document editor, pdf form filler, pdf filler",
-        },
-        {
-          name: "description",
-          content: "Using our free Online PDF Editor, you can Edit your PDFs online. Modify text, shapes, images, and freehand annotations to your PDF. Try it now!",
-        },
-        {
-          property: "og:description",
-          content: "Using our free Online PDF Editor, you can Edit your PDFs online. Modify text, shapes, images, and freehand annotations to your PDF. Try it now!",
-        },
-        {
-          property: "og:title",
-          content: "Online PDF Editor - Easily Edit your PDF Files for Free",
-        },
-        {
-          vmid: "edit_image",
-          property: "image",
-          content: "https://pdfden.com/editpdf.png",
-        },
-        {
-          vmid: "edit_facebook_image",
-          property: "og:image",
-          content: "https://pdfden.com/editpdf.png",
-        },
-        {
-          vmid: "edit_twitter_image",
-          property: "twitter:image",
-          content: "https://pdfden.com/editpdf.png",
-        },
-      ],
+      
     };
   },
 
-  mixins: [fileHandlingMixin],
   components: {
     EditPdfContent,
     Processing,
-    SelectFileComponent,
     Uploading,
   },
   data() {
     return {
-      isDragging: false,
       file: null,
       get_result: false,
-      page_load: "default",
+      page_load: "loading",
       pdfPage: null,
       size: 0,
-      svgUrl: SvgImage,
       progress: 0,
+      processingId: null,
     };
   },
-  mounted() {
+  async mounted() {
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
+    await this.loadFileFromUrl();
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.handleResize);
@@ -157,17 +104,34 @@ export default {
       // Mobile responsive design - no redirect needed
       // The page will now work on all screen sizes
     },
-    async handleFiles(files) {
-      if (files.length > 1) {
-        this.$swal(
-          "Sorry!",
-          "PDFden cannot process  more than one files in a task.",
-          "warning"
-        );
-        return;
-      } else {
-        this.pdfPage = await getPageNumber(files[0]);
-        this.file = files[0];
+    async loadFileFromUrl() {
+      try {
+        // Get processingId from URL query parameter
+        this.processingId = this.$route.query.file;
+        
+        if (!this.processingId) {
+          this.page_load = "default";
+          return;
+        }
+
+        // Fetch file from API
+        const response = await this.$axios.get(`https://api.pdfezy.com/api/pdf/temp-file/${this.processingId}`, {
+          responseType: 'blob'
+        });
+
+        // Create a File object from the blob response
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const file = new File([blob], `file_${this.processingId}.pdf`, { type: 'application/pdf' });
+        
+        // Get page number and set file
+        this.pdfPage = await getPageNumber(file);
+        this.file = file;
+        this.page_load = "default";
+        
+      } catch (error) {
+        console.error('Error loading file:', error);
+        this.page_load = "default";
+        this.$swal("Error!", "Failed to load file. Please check the processingId.", "error");
       }
     },
 
@@ -180,16 +144,25 @@ export default {
     },
 
     async upload_png(data) {
-      console.log(data);
       const pdf = await addImagesToPDF2(this.getURL(this.file), data);
       await this.upload_pdf(pdf);
     },
     upload_pdf(pdf) {
       const formData = new FormData();
-      formData.append("pdf", pdf);
+      
+      // Create filename with original name + timestamp
+      const originalName = this.file.name.replace('.pdf', '');
+      const timestamp = Date.now();
+      const newFilename = `${originalName}_${timestamp}.pdf`;
+      
+      // Create a new File object with the new filename
+      const fileWithNewName = new File([pdf], newFilename, { type: 'application/pdf' });
+      
+      formData.append("pdf", fileWithNewName);
+      formData.append("processingId", this.processingId);
       this.page_load = "uploading";
       this.$axios
-        .post("/pdf/pdf_upload", formData, {
+        .post("/pdf/pdf_upload_with_processingId", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -201,29 +174,8 @@ export default {
           }.bind(this),
         })
         .then((response) => {
-          const obj = {
-            id: response.data,
-            button_title: "Successfully Edited",
-            dis_text: "PDF has been edited!",
-            down_name: `${this.file.name.split(".")[0]}_edited.pdf`,
-            file_type: "application/pdf",
-            before: "editpdf",
-          };
-          const encrypted = this.$crypto.AES.encrypt(
-            JSON.stringify(obj),
-            "mySecretKey123"
-          ).toString();
-          // const encrypted = this.$encrypt(obj);
-
-          this.$router.push({
-            path: "download",
-            // this.$route.params.locale == undefined
-            //   ? "download"
-            //   : "en_download",
-            query: {
-              param: encrypted,
-            },
-          });
+          // Redirect to success page on different domain with processingId
+          window.location.href = `http://localhost:3065/success-edit/?file=${this.processingId}`;
         })
         .catch((e) => {
           this.page_load = "default";
@@ -253,6 +205,23 @@ export default {
 
 .edit-desc-detail {
   background-color: #def2ff;
+}
+
+.error-message {
+  text-align: center;
+  padding: 50px 20px;
+  color: #666;
+}
+
+.error-message h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.error-message p {
+  font-size: 18px;
+  line-height: 1.5;
   padding: 24px;
   color: #161616;
   margin: 30px;

@@ -43,10 +43,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: "~/plugins/vuex-persist", ssr: false },
-    { src: "~/plugins/rating.js", ssr: false },
     { src: "~/plugins/vuelidate.js", mode: "client" },
     { src: "~/plugins/crypto.js", mode: "client" },
-    { src: "~/plugins/vue-radial.js", mode: "client" },
     "~/plugins/vue-material.js",
     "~/plugins/axios.js",
     "~/plugins/socket.client.js",
@@ -76,11 +74,11 @@ export default {
   },
 
   axios: {
-    baseURL: "https://api.pdfden.com/api",
+    baseURL: "https://api.pdfezy.com/api",
   },
   publicRuntimeConfig: {
     axios: {
-      baseURL: "https://api.pdfden.com/api",
+      baseURL: "https://api.pdfezy.com/api",
     },
   },
   // vuetify: {
